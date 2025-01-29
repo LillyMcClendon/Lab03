@@ -1,7 +1,7 @@
 Lab 03 - Nobel laureates
 ================
-Insert your name here
-Insert date here
+Lilly McClendon
+01-30-2025
 
 ### Load packages and data
 
