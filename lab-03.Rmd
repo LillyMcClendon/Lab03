@@ -66,12 +66,43 @@ For the Nobel Prize categories of chemistry, economics, medicine, and physics, m
 
 ### Exercise 3
 
-Remove this text, and add your answer for Exercise 1 here.
-Add code chunks as needed.
-Don't forget to label your code chunk.
-Do not use spaces in code chunk labels.
+```{r born_country_us-mutate, eval=TRUE}
+ nobel_living_science_born <- nobel_living_science %>% 
+  mutate( 
+    born_country_us = if_else(born_country == "USA", "USA", "Other")
+  ) 
+```
 
-### Exercise 4
+
+```{r filter_bornUS-resideUS_test, eval=TRUE}
+library(readr)
+library(ggplot2)
+nobel_living_science_born %>% 
+  filter(
+    born_country_us == "USA", 
+    country_us == "USA", 
+  ) %>%
+  select(born_country_us, country_us)
+```
+
+#### Number of winners born in the US and won while residing in the US
+
+Of the US-based nobel laureates, 102 were also born in the US. 
+
+```{r plot-bornus-resideus, eval = TRUE}
+ggplot(nobel_living_science_born, aes(x=country_us, fill=born_country_us, color=born_country_us)) + 
+  geom_bar(stat = "count") +
+  ggtitle("Relationship between the Category of Prize, Country when Prize Won, and Born Country") +
+  facet_wrap(~category) + 
+  coord_flip()
+```
+
+#### Visualization of Country Born and Country Reside 
+
+After adding a second variable for country of birth to the visualization, the data appears to support Buzzfeed's claim that immigration is important for science in the US, however, there are a fair number of US based laureates who were born in the US as well. I would say that the data supports Buzzfeed's claim but it is not as drastic as they are saying. 
+
+
+### Exercise 4 
 
 ...
 
