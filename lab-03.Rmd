@@ -39,11 +39,30 @@ nrow(nobel_living)
 
 
 ### Exercise 2
+```{r country-us-mutate}
+nobel_living <- nobel_living %>%
+  mutate(
+    country_us = if_else(country == "USA", "USA", "Other")
+  )
+```
 
-Remove this text, and add your answer for Exercise 1 here.
-Add code chunks as needed.
-Don't forget to label your code chunk.
-Do not use spaces in code chunk labels.
+```{r limit-prize-categories}
+nobel_living_science <- nobel_living %>%
+  filter(category %in% c("Physics", "Medicine", "Chemistry", "Economics"))
+```
+
+```{r faceted-bar-plot}
+nobel_living_science %>% 
+  ggplot(aes(x=country_us)) + 
+  geom_bar() + 
+  ggtitle("Relationship between the Category of Prize and Country when Prize Won") + 
+  facet_wrap(~category) + 
+  coord_flip()
+```
+
+#### Visualization Interpretation 
+
+For the Nobel Prize categories of chemistry, economics, medicine, and physics, more prizes have been awarded when the individual resides in the U.S. However, there is a greater difference for some categories than others. There seems to be quite a large proportion of economic Nobel prizes awarded to individual's currently residing in the U.S. Given this faceted bar plot, I would say that the Buzzfeed data seems to be supported by the data. 
 
 ### Exercise 3
 
