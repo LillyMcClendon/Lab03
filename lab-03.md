@@ -107,6 +107,8 @@ print(nobel)
     dataset (26 variables if you include the ID column). Each row
     represents a different nobel prize winning individual.
 
+### Exercise 2
+
 ``` r
 library(dplyr)
 nobel_living <- nobel %>% 
@@ -118,7 +120,7 @@ nrow(nobel_living)
 
     ## [1] 228
 
-### Exercise 2
+### Exercise 3
 
 ``` r
 nobel_living <- nobel_living %>%
@@ -153,20 +155,88 @@ prizes awarded to individual’s currently residing in the U.S. Given this
 faceted bar plot, I would say that the Buzzfeed data seems to be
 supported by the data.
 
-### Exercise 3
-
-Remove this text, and add your answer for Exercise 1 here. Add code
-chunks as needed. Don’t forget to label your code chunk. Do not use
-spaces in code chunk labels.
-
 ### Exercise 4
 
-…
+``` r
+ nobel_living_science_born <- nobel_living_science %>% 
+  mutate( 
+    born_country_us = if_else(born_country == "USA", "USA", "Other")
+  ) 
+```
+
+``` r
+nobel_living_science_born %>% 
+  filter(
+    born_country_us == "USA", 
+    country_us == "USA", 
+  ) %>%
+  select(born_country_us, country_us)
+```
+
+    ## # A tibble: 102 × 2
+    ##    born_country_us country_us
+    ##    <chr>           <chr>     
+    ##  1 USA             USA       
+    ##  2 USA             USA       
+    ##  3 USA             USA       
+    ##  4 USA             USA       
+    ##  5 USA             USA       
+    ##  6 USA             USA       
+    ##  7 USA             USA       
+    ##  8 USA             USA       
+    ##  9 USA             USA       
+    ## 10 USA             USA       
+    ## # ℹ 92 more rows
+
+#### Number of winners born in the US and won while residing in the US
+
+Of the US-based nobel laureates, 102 were also born in the US.
 
 ### Exercise 5
 
-…
+``` r
+ggplot(nobel_living_science_born, aes(x=country_us, fill=born_country_us, color=born_country_us)) + 
+  geom_bar(stat = "count") +
+  ggtitle("Relationship between the Category of Prize, Country when Prize Won, and Born Country") +
+  facet_wrap(~category) + 
+  coord_flip()
+```
+
+![](lab-03_files/figure-gfm/plot-bornus-resideus-1.png)<!-- -->
+
+#### Visualization of Country Born and Country Reside
+
+After adding a second variable for country of birth to the
+visualization, the data appears to support Buzzfeed’s claim that
+immigration is important for science in the US, however, there are a
+fair number of US based laureates who were born in the US as well. I
+would say that the data supports Buzzfeed’s claim but it is not as
+drastic as they are saying.
 
 ### Exercise 6
 
-…
+``` r
+nobel_living_science_born %>%
+  filter(country == "USA" & born_country != "USA") %>%
+  count(born_country, sort = TRUE)
+```
+
+    ## # A tibble: 21 × 2
+    ##    born_country       n
+    ##    <chr>          <int>
+    ##  1 Germany            7
+    ##  2 United Kingdom     7
+    ##  3 China              5
+    ##  4 Canada             4
+    ##  5 Japan              3
+    ##  6 Australia          2
+    ##  7 Israel             2
+    ##  8 Norway             2
+    ##  9 Austria            1
+    ## 10 Finland            1
+    ## # ℹ 11 more rows
+
+#### Most common born country but won in US
+
+Germany and the United Kingdom both had 7 people born outside of the US,
+but won their nobel prize while residing in the US.

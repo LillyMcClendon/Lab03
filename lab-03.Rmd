@@ -28,6 +28,7 @@ print(nobel)
 1. There are 935 observations, and there are 25 variables in the dataset (26 variables if you include the ID column). Each row represents a different nobel prize winning individual. 
 
 
+### Exercise 2
 ```{r nobel-living-data-frame-filter, eval=TRUE}
 library(dplyr)
 nobel_living <- nobel %>% 
@@ -38,7 +39,7 @@ nrow(nobel_living)
 ```
 
 
-### Exercise 2
+### Exercise 3
 ```{r country-us-mutate}
 nobel_living <- nobel_living %>%
   mutate(
@@ -64,7 +65,8 @@ nobel_living_science %>%
 
 For the Nobel Prize categories of chemistry, economics, medicine, and physics, more prizes have been awarded when the individual resides in the U.S. However, there is a greater difference for some categories than others. There seems to be quite a large proportion of economic Nobel prizes awarded to individual's currently residing in the U.S. Given this faceted bar plot, I would say that the Buzzfeed data seems to be supported by the data. 
 
-### Exercise 3
+
+### Exercise 4 
 
 ```{r born_country_us-mutate, eval=TRUE}
  nobel_living_science_born <- nobel_living_science %>% 
@@ -73,10 +75,7 @@ For the Nobel Prize categories of chemistry, economics, medicine, and physics, m
   ) 
 ```
 
-
 ```{r filter_bornUS-resideUS_test, eval=TRUE}
-library(readr)
-library(ggplot2)
 nobel_living_science_born %>% 
   filter(
     born_country_us == "USA", 
@@ -88,6 +87,9 @@ nobel_living_science_born %>%
 #### Number of winners born in the US and won while residing in the US
 
 Of the US-based nobel laureates, 102 were also born in the US. 
+
+
+### Exercise 5
 
 ```{r plot-bornus-resideus, eval = TRUE}
 ggplot(nobel_living_science_born, aes(x=country_us, fill=born_country_us, color=born_country_us)) + 
@@ -102,14 +104,13 @@ ggplot(nobel_living_science_born, aes(x=country_us, fill=born_country_us, color=
 After adding a second variable for country of birth to the visualization, the data appears to support Buzzfeed's claim that immigration is important for science in the US, however, there are a fair number of US based laureates who were born in the US as well. I would say that the data supports Buzzfeed's claim but it is not as drastic as they are saying. 
 
 
-### Exercise 4 
-
-...
-
-### Exercise 5
-
-...
-
 ### Exercise 6
+```{r filter-count-resideUS-bornOther, eval=TRUE}
+nobel_living_science_born %>%
+  filter(country == "USA" & born_country != "USA") %>%
+  count(born_country, sort = TRUE)
+```
 
-...
+#### Most common born country but won in US
+
+Germany and the United Kingdom both had 7 people born outside of the US, but won their nobel prize while residing in the US. 
